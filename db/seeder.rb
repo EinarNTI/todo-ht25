@@ -22,13 +22,13 @@ def create_tables(db)
   db.execute('CREATE TABLE todos (
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               name TEXT NOT NULL, 
-              description TEXT)')
+              description TEXT, done BOOL)')
 end
 
 def populate_tables(db)
-  db.execute('INSERT INTO todos (name, description) VALUES ("Köp mjölk", "3 liter mellanmjölk, eko")')
-  db.execute('INSERT INTO todos (name, description) VALUES ("Köp julgran", "En rödgran")')
-  db.execute('INSERT INTO todos (name, description) VALUES ("Pynta gran", "Glöm inte lamporna i granen och tomten")')
+  db.execute('INSERT INTO todos (name, description, done) VALUES ("Köp mjölk", "3 liter mellanmjölk, eko", false)')
+  db.execute('INSERT INTO todos (name, description, done) VALUES ("Köp julgran", "En rödgran", false)')
+  db.execute('INSERT INTO todos (name, description, done) VALUES ("Pynta gran", "Glöm inte lamporna i granen och tomten", false)')
 end
 
 seed!(db)
