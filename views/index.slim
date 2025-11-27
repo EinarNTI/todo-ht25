@@ -1,5 +1,4 @@
 section
-
     div
         h4 What you have left to do:
         div.cardContainer
@@ -7,18 +6,26 @@ section
                 div.card
                     p #{task["name"]}
                     p #{task["description"]}
+                    - if task["private"] == "on"
+                        p.privateInfo private
                     form action="/#{task["id"]}/delete" method="post" 
                         input type="submit" value="Ta bort"
                     form action="/#{task["id"]}/toggle" method="post" 
                         input type="submit" value="Mark as done"
-    
+                    form action="/#{task["id"]}/edit" method="get"
+                        input type="submit" value="Edit"
     div.side
         h4 Add a new task: 
         form action="/new" method="post"
             input type="text" name="name" placeholder="What do you need to do?"
-            input type="text" name="description" placeholder="Aby more information?"
+            br
+            input type="text" name="description" placeholder="Any more information?"
+            br
+            p Should this be private?
+            br
+            input type="checkbox" name="private"
+            br
             input type="submit" value="Submit!"
-
 div
     h4 What you have done so far:
     div.cardContainer
@@ -26,7 +33,12 @@ div
             div.card
                 p #{task["name"]}
                 p #{task["description"]}
+                - if task["private"] == "on"
+                    p.privateInfo private
                 form action="/#{task["id"]}/delete" method="post" 
                     input type="submit" value="Ta bort"
                 form action="/#{task["id"]}/toggle" method="post" 
                     input type="submit" value="Mark as undone"
+                a href="/#{task["id"]}/edit" value="Edit"
+                - if task["private"] == true 
+                        p.privateInfo private

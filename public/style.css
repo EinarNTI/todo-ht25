@@ -33,3 +33,9 @@ section {
   margin: 1em;
   padding: 1em;
 }
+
+.privateInfo {
+  color: green;
+  margin-top: 0;
+  font-size: small;
+}
