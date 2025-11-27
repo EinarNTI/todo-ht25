@@ -1,22 +1,32 @@
-h4 Add a new task: 
-form action="/new" method="post"
-    input type="text" name="name" placeholder="What do you need to do?"
-    input type="text" name="description" placeholder="Aby more information?"
-    input type="submit" value="Submit!"
+section
 
-h4 What you have left to do:
-- @tasksUndone.each do |task|
-    p #{task["name"]}
-    p #{task["description"]}
-    form action="/#{task["id"]}/delete" method="post" 
-        input type="submit" value="Ta bort"
-    form action="/#{task["id"]}/toggle" method="post" 
-        input type="submit" value="Mark as done"
-h4 What you have done so far:
-- @tasksDone.each do |task|
-    p #{task["name"]}
-    p #{task["description"]}
-    form action="/#{task["id"]}/delete" method="post" 
-        input type="submit" value="Ta bort"
-    form action="/#{task["id"]}/toggle" method="post" 
-        input type="submit" value="Mark as undone"
+    div
+        h4 What you have left to do:
+        div.cardContainer
+            - @tasksUndone.each do |task|
+                div.card
+                    p #{task["name"]}
+                    p #{task["description"]}
+                    form action="/#{task["id"]}/delete" method="post" 
+                        input type="submit" value="Ta bort"
+                    form action="/#{task["id"]}/toggle" method="post" 
+                        input type="submit" value="Mark as done"
+    
+    div.side
+        h4 Add a new task: 
+        form action="/new" method="post"
+            input type="text" name="name" placeholder="What do you need to do?"
+            input type="text" name="description" placeholder="Aby more information?"
+            input type="submit" value="Submit!"
+
+div
+    h4 What you have done so far:
+    div.cardContainer
+        - @tasksDone.each do |task|
+            div.card
+                p #{task["name"]}
+                p #{task["description"]}
+                form action="/#{task["id"]}/delete" method="post" 
+                    input type="submit" value="Ta bort"
+                form action="/#{task["id"]}/toggle" method="post" 
+                    input type="submit" value="Mark as undone"

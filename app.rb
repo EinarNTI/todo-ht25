@@ -22,7 +22,7 @@ post '/new' do
     query1 = params[:name]
     query2 = params[:description]
 
-    db.execute("INSERT INTO todos (name, description) VALUES (?,?)",[query1,query2])
+    db.execute("INSERT INTO todos (name, description, done) VALUES (?,?,?)",[query1,query2,0])
     redirect('/')
 end
 
@@ -31,12 +31,13 @@ post '/:id/toggle' do
     db = SQLite3::Database.new("db/todos.db")
     db.results_as_hash = true
 
-    id = params[:id]
+    id = params[:id].to_i
 
-    state = db.execute("SELECT done FROM todos WHERE id = ?", id)
-    state = !state
-    
-    db.execute("UPDATE todos SET done = ? WHERE id = ?", [state, id])
+
+    current = db.get_first_value("SELECT done FROM todos WHERE id = ?", id).to_i
+    new_state = current == 1 ? 0 : 1
+
+    db.execute("UPDATE todos SET done = ? WHERE id = ?", [new_state, id])
 
     redirect('/')
 end

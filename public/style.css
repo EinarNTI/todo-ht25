@@ -1,7 +1,35 @@
+html {
+  min-width: 570px;
+  text-wrap: nowrap;
+  max-width: 100vw;
+}
+
 body {
   font-family: sans-serif;
   color: #666;
   background-color: #f1f1f1;
   font-size: x-large;
   margin: 1em;
+}
+
+section {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cardContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  margin: 1em;
+  padding: 1em;
+  background-color: yellow;
+}
+
+.side {
+  background-color: yellow;
+  margin: 1em;
+  padding: 1em;
 }
