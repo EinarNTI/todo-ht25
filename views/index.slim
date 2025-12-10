@@ -1,3 +1,12 @@
+div
+    p Sort by:
+    form action="todos/1" method="get" 
+        input type="submit" value="Private"
+    form action="todos/2" method="get" 
+        input type="submit" value="Public"
+    form action="todos/3" method="get" 
+        input type="submit" value="Other"
+
 section
     div
         h4 What you have left to do:
@@ -8,22 +17,25 @@ section
                     p #{task["description"]}
                     - if task["private"] == "on"
                         p.privateInfo private
-                    form action="/#{task["id"]}/delete" method="post" 
+                    form action="/todos/#{task["id"]}/delete" method="post" 
                         input type="submit" value="Ta bort"
-                    form action="/#{task["id"]}/toggle" method="post" 
+                    form action="/todos/#{task["id"]}/toggle" method="post" 
                         input type="submit" value="Mark as done"
-                    form action="/#{task["id"]}/edit" method="get"
+                    form action="/todos/#{task["id"]}/edit" method="get"
                         input type="submit" value="Edit"
     div.side
         h4 Add a new task: 
-        form action="/new" method="post"
+        form action="/todos/new" method="post"
             input type="text" name="name" placeholder="What do you need to do?"
             br
             input type="text" name="description" placeholder="Any more information?"
             br
-            p Should this be private?
+            label Select categories:
             br
-            input type="checkbox" name="private"
+            <select name="category[]" multiple> 
+                option value=1 Private
+                option value=2 Public
+                option value=3 Other
             br
             input type="submit" value="Submit!"
 div
@@ -35,9 +47,9 @@ div
                 p #{task["description"]}
                 - if task["private"] == "on"
                     p.privateInfo private
-                form action="/#{task["id"]}/delete" method="post" 
+                form action="/todos/#{task["id"]}/delete" method="post" 
                     input type="submit" value="Ta bort"
-                form action="/#{task["id"]}/toggle" method="post" 
+                form action="/todos/#{task["id"]}/toggle" method="post" 
                     input type="submit" value="Mark as undone"
                 a href="/#{task["id"]}/edit" value="Edit"
                 - if task["private"] == true 
