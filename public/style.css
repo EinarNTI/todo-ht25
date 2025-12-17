@@ -1,3 +1,8 @@
+.top {
+  display: flex;
+  justify-content: space-between;
+}
+
 a {
   margin-right: 1em;
   text-decoration: none;
@@ -38,10 +43,4 @@ section {
   background-color: yellow;
   margin: 1em;
   padding: 1em;
-}
-
-.privateInfo {
-  color: green;
-  margin-top: 0;
-  font-size: small;
 }

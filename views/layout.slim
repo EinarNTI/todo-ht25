@@ -9,3 +9,8 @@ html lang="en"
     header 
       h3 Welcome to the Todopage!
     ==yield
+
+
+- if flash[:notice]
+  script
+    | alert("#{flash[:notice]}");

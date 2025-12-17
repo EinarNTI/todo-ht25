@@ -1,28 +1,14 @@
-div
-    p Sort by:
-    form action="todos/1" method="get" 
-        input type="submit" value="Private"
-    form action="todos/2" method="get" 
-        input type="submit" value="Public"
-    form action="todos/3" method="get" 
-        input type="submit" value="Other"
-
-section
+div.top
     div
-        h4 What you have left to do:
-        div.cardContainer
-            - @tasksUndone.each do |task|
-                div.card
-                    p #{task["name"]}
-                    p #{task["description"]}
-                    - if task["private"] == "on"
-                        p.privateInfo private
-                    form action="/todos/#{task["id"]}/delete" method="post" 
-                        input type="submit" value="Ta bort"
-                    form action="/todos/#{task["id"]}/toggle" method="post" 
-                        input type="submit" value="Mark as done"
-                    form action="/todos/#{task["id"]}/edit" method="get"
-                        input type="submit" value="Edit"
+        p Sort by:
+        form action="../todos/1" method="get" 
+            input type="submit" value="#{@catergoryNames[1]}"
+        form action="../todos/2" method="get" 
+            input type="submit" value="#{@catergoryNames[2]}"
+        form action="../todos/3" method="get" 
+            input type="submit" value="#{@catergoryNames[3]}"
+        form action="../todos" method="get"
+            input type="submit" value="All"
     div.side
         h4 Add a new task: 
         form action="/todos/new" method="post"
@@ -33,11 +19,26 @@ section
             label Select categories:
             br
             <select name="category[]" multiple> 
-                option value=1 Private
-                option value=2 Public
-                option value=3 Other
+                option value=1 #{@catergoryNames[1]}
+                option value=2 #{@catergoryNames[2]}
+                option value=3 #{@catergoryNames[3]}
             br
             input type="submit" value="Submit!"
+
+section
+    div
+        h4 What you have left to do:
+        div.cardContainer
+            - @tasksUndone.each do |task|
+                div.card
+                    p #{task["name"]}
+                    p #{task["description"]}
+                    form action="/todos/#{task["id"]}/delete" method="post" 
+                        input type="submit" value="Ta bort"
+                    form action="/todos/#{task["id"]}/toggle" method="post" 
+                        input type="submit" value="Mark as done"
+                    form action="/todos/#{task["id"]}/edit" method="get"
+                        input type="submit" value="Edit"
 div
     h4 What you have done so far:
     div.cardContainer
@@ -45,12 +46,8 @@ div
             div.card
                 p #{task["name"]}
                 p #{task["description"]}
-                - if task["private"] == "on"
-                    p.privateInfo private
                 form action="/todos/#{task["id"]}/delete" method="post" 
                     input type="submit" value="Ta bort"
                 form action="/todos/#{task["id"]}/toggle" method="post" 
                     input type="submit" value="Mark as undone"
                 a href="/#{task["id"]}/edit" value="Edit"
-                - if task["private"] == true 
-                        p.privateInfo private
