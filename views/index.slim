@@ -2,11 +2,11 @@ div.top
     div
         p Sort by:
         form action="../todos/1" method="get" 
-            input type="submit" value="#{@catergoryNames[1]}"
+            input type="submit" value="#{@categoryNames[1]}"
         form action="../todos/2" method="get" 
-            input type="submit" value="#{@catergoryNames[2]}"
+            input type="submit" value="#{@categoryNames[2]}"
         form action="../todos/3" method="get" 
-            input type="submit" value="#{@catergoryNames[3]}"
+            input type="submit" value="#{@categoryNames[3]}"
         form action="../todos" method="get"
             input type="submit" value="All"
     div.side
@@ -19,9 +19,9 @@ div.top
             label Select categories:
             br
             <select name="category[]" multiple> 
-                option value=1 #{@catergoryNames[1]}
-                option value=2 #{@catergoryNames[2]}
-                option value=3 #{@catergoryNames[3]}
+                option value=1 #{@categoryNames[1]}
+                option value=2 #{@categoryNames[2]}
+                option value=3 #{@categoryNames[3]}
             br
             input type="submit" value="Submit!"
 
