@@ -4,6 +4,7 @@ require 'slim'
 require 'sinatra/reloader'
 require 'sinatra/flash'
 # ^gem install sinatra-flash
+require 'bcrypt'
 
 enable :sessions
 
@@ -22,7 +23,8 @@ post '/login' do
     result = db.execute("SELECT * FROM users")
 
     result.each do |row|
-        if row["password"] == pwd and row["username"] == usr
+        p row["username"] == usr and BCrypt::Password.new(row["password"]) == pwd
+        if row["username"] == usr and BCrypt::Password.new(row["password"]) == pwd
             @login = true
         end
     end
@@ -34,6 +36,28 @@ post '/login' do
         redirect '/'
     end
 end
+
+# Register new user
+get '/register' do
+    slim :register
+end
+
+post '/register' do
+    user = params[:username]  
+    pass = params[:password]
+
+    db = SQLite3::Database.new("db/todos.db")
+    db.results_as_hash = true
+
+    if db.execute("SELECT * FROM users WHERE username = ?", user).length > 0
+        flash[:notice] = "Username already exists."
+        redirect '/register'
+    else
+        pass_digest = BCrypt::Password.create(pass)
+        db.execute("INSERT INTO users (username, password) VALUES (?, ?)", [user, pass_digest])
+        redirect '/'
+    end
+end 
 
 # Index page
 get '/todos' do
@@ -47,8 +71,13 @@ get '/todos' do
     db.results_as_hash = true
 
     @categories = {}
-    @tasksUndone = db.execute("SELECT * FROM todos WHERE done = false AND owner = ?", session[:user])
-    @tasksDone = db.execute("SELECT * FROM todos WHERE done = true AND owner = ?", session[:user])
+    if session[:user] == "admin"
+        @tasksUndone = db.execute("SELECT * FROM todos WHERE done = false")
+        @tasksDone = db.execute("SELECT * FROM todos WHERE done = true")  
+    else
+        @tasksUndone = db.execute("SELECT * FROM todos WHERE done = false AND owner = ?", session[:user])
+        @tasksDone = db.execute("SELECT * FROM todos WHERE done = true AND owner = ?", session[:user])
+    end
 
     @tasksUndone.each do |item|
         @categories[item["id"]] = db.execute("SELECT name FROM categories INNER JOIN todos_categories_rel ON categories.id = todos_categories_rel.categories_id WHERE todos_categories_rel.todos_id = ?", item["id"]).map {|row| row["name"]}.join(", ")
